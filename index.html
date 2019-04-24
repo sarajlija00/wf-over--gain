@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wireframe</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Wireframe">
+        <meta name="author" content="Elvir Uzunovic">
+        <script type="module" src="./js/main.mjs"></script>
+    </head>
+
+    <body>
+        <nav id="meni">
+            <a>User</a> |
+            <a>Gallery</a> |
+            <a>Weather</a> |
+            <a>Logout</a>
+        </nav>
+        <br>
+        <br>
+        <div>
+            <form id="login-form"> 
+                <input id="email" type="email" placeholder="Email">
+                <br>
+                <br>
+                <input id="password" type="password" placeholder="Password">
+                <br>
+                <br>
+                <input type="button" value="Login" onclick="login()"> 
+                <br>
+                <a class="font">forgot your password</a>
+            </form>
+                <div id="error"></div>
+                <div id="result"></div>
+            </div>
+    </body>
+</html>
