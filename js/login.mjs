@@ -1,6 +1,8 @@
 const loginDiv = document.getElementById('login-forma');
 const rezultatDiv = document.getElementById('rezultat');
 const greskaDiv = document.getElementById('greska');
+const menu = document.getElementById('menu');
+menu.style = 'display: none';
 
 const login = () => {
     const email = document.getElementById('email').value;
@@ -21,8 +23,9 @@ const loginRequest = (email, password) => new Promise ((resolve, reject) => {
             let response = JSON.parse(xhttp.responseText);
             resolve(response);
         }
-        else{
+        if(xhttp.readyState == 4 && xhttp.status !== 200) {
             reject('Pogresan mail ili password');
+            
         }
     }
     xhttp.open('POST', url, true);
@@ -30,16 +33,24 @@ const loginRequest = (email, password) => new Promise ((resolve, reject) => {
     xhttp.send(request);
 })
 
+const logOut = response => {
+    localStorage.removeItem('token')
+    menu.style = 'display: none';
+    loginDiv.style = 'display: block';
+}
+
 const loggedIn = () => {
     const token = localStorage.getItem('token');
     return token;
 }
+
 
 const prikaziGresku = err => greskaDiv.innerHTML = err;
 
 const spasiTokenSakriFormu = response => {
     localStorage.setItem ('token', response.token);
     loginDiv.style = 'display: none';
+    menu.style = 'display: block;';
 }
 
 export {
