@@ -1,29 +1,27 @@
+const loginDiv = document.getElementById('login-forma');
+const rezultatDiv = document.getElementById('rezultat');
+const greskaDiv = document.getElementById('greska');
 
+const login = () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    loginRequest(email, password)
+    .then(spasiTokenSakriFormu)
+    .catch(prikaziGresku)
 
-const loginDiv = document.getElementById('login-form');
-const resultDiv = document.getElementById('result');
-const errorDiv = document.getElementById('error');
-const menu = document.getElementById('menu');
-
-
-const setToken = response => localStorage.setItem ('token', response.token);
-const getToken = response => localStorage.getItem ('token');
-const clearToken = response => localStorage.removeItem('token');
+}
 
 const loginRequest = (email, password) => new Promise ((resolve, reject) => {
     let url = 'https://3d1pftib26.execute-api.eu-west-1.amazonaws.com/dev/user/login';
     let xhttp = new XMLHttpRequest();
-    let object = {
-        email,
-        password
-    }
+    let object = {email, password}
     let request = JSON.stringify(object);
     xhttp.onreadystatechange = function() {
         if(xhttp.readyState == 4 && xhttp.status == 200) {
             let response = JSON.parse(xhttp.responseText);
             resolve(response);
         }
-        else(xhttp.readyState == 4 && xhttp.status !== 200) {
+        else{
             reject('Pogresan mail ili password');
         }
     }
@@ -37,38 +35,17 @@ const loggedIn = () => {
     return token;
 }
 
-const login = () => {
-    const email = document.getElementById ('email').value;
-    const password = document.getElementById ('password').value;
-    loginRequest()
-        .then(handleLogin)
-        .catch(handleError)
-   
+const prikaziGresku = err => greskaDiv.innerHTML = err;
+
+const spasiTokenSakriFormu = response => {
+    localStorage.setItem ('token', response.token);
+    loginDiv.style = 'display: none';
 }
-
-const handleLogin = () => {
-    setToken(response)
-    showResult()
-    showMenu()
-}
-
-const handleError = err => errorDiv.innerHTML = err;
-
-const showResult = () => {
-    loginDiv.style = 'display: none;';
-    resultDiv.style = 'display: block;';
-}
-
-const showMenu = () => menu.style = 'display: block;';
-const hideMenu = () => menu.style = 'display: none;';
 
 export {
-    loggedIn,
     login,
-    showResult,
-    showMenu,
-    hideMenu,
-    setToken,
-    getItem,
-    clearToken
+    loggedIn,
+
 }
+
+
